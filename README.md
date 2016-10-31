@@ -1,10 +1,10 @@
-[![Latest Stable Version](https://poser.pugx.org/dmamontov/davbackup/v/stable.svg)](https://packagist.org/packages/dmamontov/davbackup)
-[![License](https://poser.pugx.org/dmamontov/davbackup/license.svg)](https://packagist.org/packages/dmamontov/davbackup)
-[![Total Downloads](https://poser.pugx.org/dmamontov/davbackup/downloads)](https://packagist.org/packages/dmamontov/davbackup)
-[![PHP Classes](https://img.shields.io/badge/php-classes-blue.svg)](http://www.phpclasses.org/package/9081-PHP-Backup-files-and-a-database-to-a-WebDav-server.html)
+This is a fork of original package from dmamontov.
+
+---
 
 PHP Backup to WebDav Server
 ===========================
+
 
 This package can backup files and a database to a WebDav server.
 
@@ -33,7 +33,7 @@ The package comes with several sub-classes specialized in configuring the connec
 
 2) Follow in the project folder:
 ```bash
-composer require dmamontov/davbackup ~1.1.0
+composer require spotman/davbackup ~1.1.0
 ```
 
 In config `composer.json` your project will be added to the library `dmamontov/davbackup`, who settled in the folder `vendor/`. In the absence of a config file or folder with vendors they will be created.

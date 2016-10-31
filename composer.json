@@ -1,18 +1,22 @@
 {
-	"name" : "dmamontov/davbackup",
+	"name" : "spotman/davbackup",
 	"description" : "Creating backup sites in the clouds through WebDav",
 	"type" : "library",
 	"keywords" : [
 		"webdav",
 		"backup"
 	],
-	"version" : "1.1.0",
+	"version" : "dev-master",
 	"license" : "BSD-3-Clause",
 	"homepage" : "http://www.slobel.ru/",
 	"authors" : [{
 			"name" : "Dmitry Mamontov",
 			"email" : "hello@slobel.ru",
 			"role" : "lead"
+		}, {
+			"name" : "Spotman",
+			"email" : "i.am@spotman.ru",
+			"role" : "co-worker"
 		}
 	],
 	"require" : {

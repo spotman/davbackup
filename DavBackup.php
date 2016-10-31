@@ -168,7 +168,6 @@ abstract class DavBackup
      * @param string $url
      * @param string $login
      * @param string $password
-     * @return void
      * @access protected
      */
     protected function __construct($url, $login, $password)
@@ -243,7 +242,7 @@ abstract class DavBackup
      * @access public
      * @final
      */
-    final public function  isCompressed()
+    final public function isCompressed()
     {
         return $this->compression;
     }
@@ -270,7 +269,7 @@ abstract class DavBackup
      * @access public
      * @final
      */
-    final public function  isRemoveFile()
+    final public function isRemoveFile()
     {
         return $this->removeFile;
     }
@@ -279,16 +278,33 @@ abstract class DavBackup
      * Sets prefix of the archive
      *
      * @param string $prefix
+     * @param bool   $prependTimestamp
+     *
      * @return DavBackup
      * @access public
      * @final
      */
-    final public function setPrefix($prefix)
+    final public function setPrefix($prefix, $prependTimestamp = true)
     {
         if (!is_null($prefix) && !empty($prefix)) {
-            $this->prefix = sprintf('%s-%s', time(), $this->clearPrefix($prefix));
+            $this->prefix = $prependTimestamp
+                ? sprintf('%s-%s', time(), $this->clearPrefix($prefix))
+                : sprintf('%s', $this->clearPrefix($prefix));
         }
 
+        return $this;
+    }
+
+    /**
+     * Drops a prefix of the archive
+     *
+     * @return $this
+     * @access public
+     * @final
+     */
+    final public function resetPrefix()
+    {
+        $this->prefix = null;
         return $this;
     }
 
@@ -368,12 +384,14 @@ abstract class DavBackup
                 }
 
                 return true;
+
             case self::ZIP:
                 if (!class_exists('ZipArchive')) {
                     throw new RuntimeException('ZipArchive class is not in the system, try to select another file type.');
                 }
 
                 return true;
+
             case self::RAR:
                 if (!class_exists('RarArchiver')) {
                     throw new RuntimeException(
@@ -382,6 +400,9 @@ abstract class DavBackup
                 }
 
                 return true;
+
+            default:
+                return false;
         }
     }
 
@@ -497,7 +518,7 @@ abstract class DavBackup
      * @access private
      * @final
      */
-    final private function getRealName()
+    final public function getRealName()
     {
         $realName = '';
 
@@ -572,13 +593,13 @@ abstract class DavBackup
 
             $file->fwrite($result);
             $result = '';
+            $type = array();
 
             if ($rows) {
                 $result = sprintf('INSERT INTO %s (', $table);
                 $columns = $this->connection->query(sprintf('SHOW COLUMNS FROM %s', $table));
 
                 $count = 0;
-                $type = array();
 
                 while ($row = $columns->fetch(PDO::FETCH_NUM)) {
                     $type[$table][] = stripos($row[1], '(') ? stristr($row[1], '(', true) : $row[1];
