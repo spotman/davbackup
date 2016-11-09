@@ -6,7 +6,6 @@
 		"webdav",
 		"backup"
 	],
-	"version" : "dev-master",
 	"license" : "BSD-3-Clause",
 	"homepage" : "http://www.slobel.ru/",
 	"authors" : [{
