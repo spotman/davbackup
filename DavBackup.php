@@ -499,7 +499,7 @@ abstract class DavBackup
             }
             sprintf('%s%s', $this->realTemporaryDirectory, $realName);
 
-            if ($send->code != 201) {
+            if (!in_array($send->code, array(201, 204))) {
                 throw new RuntimeException('There was an error sending the archive', $send->code);
             }
 
