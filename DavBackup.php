@@ -554,7 +554,7 @@ abstract class DavBackup
             $result = $this->request($folder, array(), 'MKCOL');
         }
 
-        if (!in_array($result->code, array(201, 207))) {
+        if (!in_array($result->code, array(201, 204, 207))) {
             throw new RuntimeException('Failed to create remote directory', $result->code);
         }
 
