@@ -462,10 +462,10 @@ abstract class DavBackup
     {
         $this->createRemoteFolder();
 
+        // Cleanup temp directory
+        $this->delete_directory($this->realTemporaryDirectory, TRUE);
+
         $archive = $this->getArchive();
-        if (!is_null($this->path)) {
-            $archive = $this->addFiles($archive);
-        }
 
         if ($this->connection instanceof PDO) {
             $this->createDbBackup();
@@ -475,6 +475,10 @@ abstract class DavBackup
                     sprintf('sql/%s.sql', $this->prefix)
                 );
             }
+        }
+
+        if (!is_null($this->path)) {
+            $archive = $this->addFiles($archive);
         }
 
         if ($this->type == self::ZIP) {
@@ -509,6 +513,19 @@ abstract class DavBackup
         }
 
         return $this;
+    }
+
+    protected function delete_directory($dir, $keep_self = FALSE)
+    {
+        $files = array_diff(scandir($dir), ['.', '..']);
+
+        foreach ($files as $file) {
+            (is_dir("$dir/$file"))
+                ? $this->delete_directory("$dir/$file")
+                : unlink("$dir/$file");
+        }
+
+        return $keep_self ? TRUE : rmdir($dir);
     }
 
     /**
