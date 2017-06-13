@@ -460,8 +460,6 @@ abstract class DavBackup
      */
     final public function execute()
     {
-        $this->createRemoteFolder();
-
         // Cleanup temp directory
         $this->delete_directory($this->realTemporaryDirectory, TRUE);
 
@@ -476,6 +474,8 @@ abstract class DavBackup
                 );
             }
         }
+
+        $this->createRemoteFolder();
 
         if (!is_null($this->path)) {
             $archive = $this->addFiles($archive);
