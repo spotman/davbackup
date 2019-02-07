@@ -794,19 +794,23 @@ abstract class DavBackup
      */
     private function addFiles($archive)
     {
+        $flags = FilesystemIterator::SKIP_DOTS
+            | FilesystemIterator::CURRENT_AS_PATHNAME
+            | FilesystemIterator::KEY_AS_PATHNAME
+            | FilesystemIterator::FOLLOW_SYMLINKS;
+
+        $filesIterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($this->path, $flags),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
+
         switch ($this->type) {
             case self::RAR:
             case self::TAR:
-                $archive->buildFromDirectory($this->path);
+                $archive->buildFromIterator($filesIterator);
                 break;
             case self::ZIP:
-                $this->backupDir = str_replace('\\', '/', realpath($this->path));
-                $files           = new RecursiveIteratorIterator(
-                    new RecursiveDirectoryIterator($this->path),
-                    RecursiveIteratorIterator::SELF_FIRST
-                );
-
-                foreach ($files as $file) {
+                foreach ($filesIterator as $file) {
                     $file = str_replace('\\', '/', $file);
                     if (in_array(substr($file, strrpos($file, '/') + 1), ['.', '..'])) {
                         continue;
