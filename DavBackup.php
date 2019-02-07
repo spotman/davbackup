@@ -291,8 +291,6 @@ abstract class DavBackup
      */
     final public function setPrefix(string $prefix, bool $prependTimestamp = null): self
     {
-        $prependTimestamp = $prependTimestamp ?? true;
-
         if (!empty($prefix)) {
             $this->prefix = $prependTimestamp
                 ? sprintf('%s-%s', time(), $this->clearPrefix($prefix))
