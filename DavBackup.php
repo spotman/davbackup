@@ -805,18 +805,11 @@ abstract class DavBackup
         switch ($this->type) {
             case self::RAR:
             case self::TAR:
-                $archive->buildFromIterator($filesIterator);
-                break;
             case self::ZIP:
                 foreach ($filesIterator as $file) {
-                    $file = str_replace('\\', '/', $file);
-                    if (in_array(substr($file, strrpos($file, '/') + 1), ['.', '..'])) {
-                        continue;
-                    }
-
-                    $file = realpath($file);
-                    if (is_file($file)) {
-                        $archive->addFile($file, trim(str_replace($this->path, '', $file), '/'));
+                    $realFile = realpath($file);
+                    if (is_file($realFile)) {
+                        $archive->addFile($realFile, trim(str_replace($this->path, '', $file), '/'));
                     }
                 }
                 break;
