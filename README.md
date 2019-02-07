@@ -49,7 +49,7 @@ require 'DavBackup.php';
 
 $ya = new YandexBackup('test@yandex.ru', 'test');
 
-$ya->setConnection('user', 'password', 'db')
+$ya->setDbConnection('user', 'password', 'db')
    ->setPath('/var/www/public_html')
    ->setType(YandexBackup::ZIP)
    ->setRemoveFile(false)
